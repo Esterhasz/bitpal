@@ -11,4 +11,4 @@ file (GLOB_RECURSE SRC_FILES
 	"include/*.hpp"
 	"src/*.cpp")
 
-add_executable(lspp ${SRC_FILES})
+add_executable(bitpal ${SRC_FILES})
