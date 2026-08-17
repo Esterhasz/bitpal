@@ -9,12 +9,12 @@ int main()
 {
 	std::cout << "asdfasdf";
 
-	Canvas canvas(30, 15);
+	Canvas canvas(15, 15);
 
 	while (true) {
 		std::string result = std::string(ansi::fg::DARK_GRAY) + ansi::bg::RED;
 
-		canvas.Clear(ANSI_BG_DARK_GRAY);
+		canvas.Clear(ANSI_BG_DARK_GRAY, " ");
 
 		auto& p = canvas.get_pixel(5, 5);
 		p.color = ANSI_BG_BLUE;

@@ -15,13 +15,13 @@ namespace bitpal {
 	public:
 		Canvas(size_t width, size_t height)
 		{
-			_width = width / 2;
+			_width = width;
 			_height = height;
 
 			_buffer = std::make_unique<Pixel[]>(_width * _height);
 		}
 
-		void Clear(char* color) {
+		void Clear(const char* color, const char* str) {
 			//constexpr char CLEAR_SCREEN[] = "\033[2J\033[H";
 			//std::cout << CLEAR_SCREEN, sizeof(CLEAR_SCREEN) - 1;
 
@@ -31,8 +31,7 @@ namespace bitpal {
 				{
 					Pixel& p = get_pixel(x, y);
 
-					p.left = ' ';
-					p.right = ' ';
+					p.str = str;
 					p.color = color;
 				}
 			}
@@ -51,8 +50,7 @@ namespace bitpal {
 				{
 					Pixel& p = get_pixel(x, y);
 					out += p.color;
-					out += p.left;
-					out += p.right;
+					out += p.str;
 				}
 				out += '\n';
 			}
