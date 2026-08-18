@@ -11,6 +11,7 @@ namespace bitpal {
 		size_t _width;
 		size_t _height;
 
+		std::string _out;
 
 	public:
 		Canvas(size_t width, size_t height)
@@ -19,15 +20,17 @@ namespace bitpal {
 			_height = height;
 
 			_buffer = std::make_unique<Pixel[]>(_width * _height);
+
+			_out.reserve(_width * _height);
 		}
 
-		void Clear(const char* color, const char* str) {
+		void clear(const char* color, const char* str) {
 			
 			for (size_t y = 0; y < _height; y++)
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = this->operator()(x, y);
+					Pixel& p = (*this)(x, y);
 
 					p.str = str;
 					p.color = color;
@@ -35,25 +38,25 @@ namespace bitpal {
 			}
 
 			std::cout << ANSI_RESET;
+			_out.clear();
 		}
 
-		void Draw()
+		void draw()
 		{
-			std::string out{};
 
 			for (size_t y = 0; y < _height; y++)
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = this->operator()(x, y);
-					out += p.color;
-					out += p.str;
+					Pixel& p = (*this)(x, y);
+					_out += p.color;
+					_out += p.str;
 				}
-				out += '\n';
+				_out += '\n';
 			}
 
 			std::cout << ANSI_HOME;
-			std::cout << out;
+			std::cout << _out;
 		}
 
 		Pixel& operator()(std::size_t x, std::size_t y) {
