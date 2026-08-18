@@ -8,8 +8,8 @@ int main()
 {
 	std::cout 
 		<< ANSI_CLEAR 
-		<< ANSI_CURSOR_HIDE
-		<< ANSI_HOME;
+		<< ANSI_HOME
+        << ANSI_CURSOR_HIDE;
 
 	Canvas canvas(15, 15);
 
@@ -37,12 +37,14 @@ int main()
 
 	while (true) {
 		
-		canvas.Clear(ANSI_BG_BLACK, "  ");
+		canvas.clear(ANSI_BG_BLACK, "  ");
 		auto& p = canvas(0, 0);
+        
+        auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
+        p.color = color;
 
-        p.color = gradient[(size_t)(i += 0.001) % 16].c_str();
 		
-		canvas.Draw();
+		canvas.draw();
 	}
 
 	return 0;
