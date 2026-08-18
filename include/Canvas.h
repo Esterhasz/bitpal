@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include "Pixel.h"
 #include <iostream>
+#include "Pixel.h"
 
 namespace bitpal {
 	class Canvas {
@@ -22,20 +22,17 @@ namespace bitpal {
 		}
 
 		void Clear(const char* color, const char* str) {
-			//constexpr char CLEAR_SCREEN[] = "\033[2J\033[H";
-			//std::cout << CLEAR_SCREEN, sizeof(CLEAR_SCREEN) - 1;
-
+			
 			for (size_t y = 0; y < _height; y++)
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = get_pixel(x, y);
+					Pixel& p = this->operator()(x, y);
 
 					p.str = str;
 					p.color = color;
 				}
 			}
-
 
 			std::cout << ANSI_RESET;
 		}
@@ -48,7 +45,7 @@ namespace bitpal {
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = get_pixel(x, y);
+					Pixel& p = this->operator()(x, y);
 					out += p.color;
 					out += p.str;
 				}
@@ -59,7 +56,7 @@ namespace bitpal {
 			std::cout << out;
 		}
 
-		Pixel& get_pixel(size_t x, size_t y) {
+		Pixel& operator()(std::size_t x, std::size_t y) {
 			return _buffer[y * _width + x];
 		}
 	};

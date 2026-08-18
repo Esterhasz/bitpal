@@ -2,26 +2,48 @@
 #include "ansi.h"
 #include "Canvas.h"
 
-using namespace std;
 using namespace bitpal;
 
 int main()
 {
-	std::cout << "asdfasdf";
+	std::cout 
+		<< ANSI_CLEAR 
+		<< ANSI_CURSOR_HIDE
+		<< ANSI_HOME;
 
 	Canvas canvas(15, 15);
 
+    std::string gradient[] = {
+        ANSI_BG_BLACK,
+        ANSI_BG_DARK_RED,
+        ANSI_BG_DARK_GREEN,
+        ANSI_BG_DARK_YELLOW,
+        ANSI_BG_DARK_BLUE,
+        ANSI_BG_DARK_MAGENTA,
+        ANSI_BG_DARK_CYAN,
+        ANSI_BG_GRAY,
+
+        ANSI_BG_DARK_GRAY,
+        ANSI_BG_RED,
+        ANSI_BG_GREEN,
+        ANSI_BG_YELLOW,
+        ANSI_BG_BLUE,
+        ANSI_BG_MAGENTA,
+        ANSI_BG_CYAN,
+        ANSI_BG_WHITE,
+    };
+
+    float i = 0;
+
 	while (true) {
-		std::string result = std::string(ansi::fg::DARK_GRAY) + ansi::bg::RED;
+		
+		canvas.Clear(ANSI_BG_BLACK, "  ");
+		auto& p = canvas(0, 0);
 
-		canvas.Clear(ANSI_BG_DARK_GRAY, " ");
-
-		auto& p = canvas.get_pixel(5, 5);
-		p.color = ANSI_BG_BLUE;
+        p.color = gradient[(size_t)(i += 0.001) % 16].c_str();
 		
 		canvas.Draw();
 	}
-
 
 	return 0;
 }
