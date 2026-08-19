@@ -1,6 +1,5 @@
 ﻿#include <iostream>
-#include "ansi.h"
-#include "Canvas.h"
+#include "bitpal.h"
 
 using namespace bitpal;
 
