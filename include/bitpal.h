@@ -92,11 +92,11 @@ namespace bitpal {
 			}
 
 			std::cout << ANSI_RESET;
-			_out.clear();
 		}
 
 		void draw()
 		{
+			_out.clear();
 
 			for (size_t y = 0; y < _height; y++)
 			{
