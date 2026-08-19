@@ -9,6 +9,17 @@ project ("bitpal")
 file (GLOB_RECURSE SRC_FILES 
 	"include/*.h"
 	"include/*.hpp"
-	"src/*.cpp")
+	
+	"demos/*.hpp"
+	"demos/*.h"
+	"demos/*.cpp"
+)
 
 add_executable(bitpal ${SRC_FILES})
+
+add_custom_command(
+    TARGET bitpal POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/content"
+            "$<TARGET_FILE_DIR:bitpal>/content"
+)
