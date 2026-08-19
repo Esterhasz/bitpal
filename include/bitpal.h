@@ -47,6 +47,9 @@
 #include <iostream>
 #include <cmath>
 
+using size_t = std::size_t;
+using uint8_t = std::uint8_t;
+
 namespace bitpal {
 
 	struct Pixel {
@@ -68,13 +71,13 @@ namespace bitpal {
 		std::unique_ptr<Pixel[]> _buffer;
 		std::string _out;
 
-		std::size_t _width;
-		std::size_t _height;
+		size_t _width;
+		size_t _height;
 
-		std::uint8_t _pixelWidth;
+		uint8_t _pixelWidth;
 
 	public:
-		Buffer2D(size_t width, size_t height, int pixelWidth)
+		Buffer2D(size_t width, size_t height, uint8_t pixelWidth)
 		{
 			_width = width;
 			_height = height;
@@ -85,7 +88,7 @@ namespace bitpal {
 			_out.reserve(_width * _height * 16);
 		}
 
-		void fill(Pixel& p) {
+		void fill(const Pixel& p) {
 
 			for (size_t y = 0; y < _height; y++)
 			{
@@ -124,8 +127,7 @@ namespace bitpal {
 				_out += '\n';
 			}
 
-			std::cout << ANSI_HOME;
-			std::cout << _out;
+			std::cout << ANSI_HOME << _out;
 		}
 
 		void drawLine(int x1, int y1, int x2, int y2, const Pixel& p) {
@@ -179,10 +181,10 @@ namespace bitpal {
 			at(x, y) = p;
 		}
 
-		Pixel& at(std::size_t x, std::size_t y) {
+		Pixel& at(size_t x, size_t y) {
 			return _buffer[y * _width + x];
 		}
-		const Pixel& at(std::size_t x, std::size_t y) const {
+		const Pixel& at(size_t x, size_t y) const {
 			return _buffer[y * _width + x];
 		}
 	};
