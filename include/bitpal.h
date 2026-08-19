@@ -60,7 +60,7 @@ namespace bitpal {
 		}
 	};
 
-	class Canvas {
+	class Buffer2D {
 
 		std::unique_ptr<Pixel[]> _buffer;
 
@@ -70,7 +70,7 @@ namespace bitpal {
 		std::string _out;
 
 	public:
-		Canvas(size_t width, size_t height)
+		Buffer2D(size_t width, size_t height)
 		{
 			_width = width;
 			_height = height;

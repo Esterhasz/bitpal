@@ -12,7 +12,7 @@ int main()
 		<< ANSI_HOME
         << ANSI_CURSOR_HIDE;
 
-	Canvas canvas(15, 15);
+	Buffer2D buf(15, 15);
 
     std::string gradient[] = {
         ANSI_BG_BLACK,
@@ -38,7 +38,7 @@ int main()
 
 	while (true) {
 		
-		canvas.fill(ANSI_BG_BLACK, "  ");
+		buf.fill(ANSI_BG_BLACK, "  ");
 		
         auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
         Pixel p{};
@@ -46,9 +46,9 @@ int main()
         p.str = "  ";
 
         
-        canvas.drawRect(0, 0, 10, 10, p);
+        buf.drawRect(0, 0, 10, 10, p);
 
-		canvas.draw();
+		buf.draw();
 	}
 
 	return 0;
