@@ -81,7 +81,7 @@ namespace bitpal {
 			_out.reserve(_width * _height);
 		}
 
-		void clear(const char* color, const char* str) {
+		void fill(const char* color, const char* str) {
 
 			for (size_t y = 0; y < _height; y++)
 			{

@@ -36,7 +36,7 @@ int main()
 
 	while (true) {
 		
-		canvas.clear(ANSI_BG_BLACK, "  ");
+		canvas.fill(ANSI_BG_BLACK, "  ");
 		auto& p = canvas(0, 0);
         
         auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
