@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <cstring>
+#include <regex>
 #include "bitpal.h"
 #include "stb_image.h"
 
@@ -24,27 +25,25 @@ const int PixelWidth	= 2;
 const char* PathToPlay	= "content/heart.gif";
 
 
-struct Color {
-	unsigned char r, g, b;
-	const char* ansi;
-};
-
 struct Frame {
 
 	int width;
 	int height;
 	int channels;
 
-	std::string path;
-
 	unsigned char* image;
 
-	Frame(unsigned char* img, int w, int h, int c, std::string path) :
+	Frame(unsigned char* img, int w, int h, int c) :
 		image(img),
 		width(w),
 		height(h),
-		channels(c),
-		path(path) {}
+		channels(c){
+	}
+};
+
+struct Color {
+	unsigned char r, g, b;
+	const char* ansi;
 };
 
 const std::vector<Color> ansi_palette = {
@@ -99,7 +98,7 @@ std::vector<Frame> load_gif_frames(const std::string& filepath) {
 		unsigned char* frameData = new unsigned char[frameSizeBytes];
 		std::memcpy(frameData, rawData + (i * frameSizeBytes), frameSizeBytes);
 
-		frames.push_back(Frame(frameData, width, height, 4, filepath));
+		frames.push_back(Frame(frameData, width, height, 4));
 	}
 
 	STBI_FREE(delays);
@@ -108,17 +107,37 @@ std::vector<Frame> load_gif_frames(const std::string& filepath) {
 	return frames;
 }
 
+static int frame_number(const fs::path& path) {
+	std::string filename = path.filename().string();
+	std::smatch match;
+
+	if (std::regex_search(filename, match, std::regex(R"(\d+)"))) {
+		return std::stoi(match.str());
+	}
+	return 0;
+}
+
+
 std::vector<Frame> load_framebyframe_video(const std::string& dirPath) {
+	std::vector<fs::path> paths;
 	std::vector<Frame> frames;
 
 	for (auto& entry : fs::directory_iterator(dirPath)) {
-		std::string fpath = entry.path().string();
+		paths.push_back(entry.path());
+	}
+
+	std::sort(paths.begin(), paths.end(), [](const fs::path& a, const fs::path& b) {
+		return frame_number(a) < frame_number(b);
+		});
+
+	for (fs::path& p : paths) {
+		std::string fpath = p.string();
 
 		int width, height, channels;
 		auto frame = stbi_load(fpath.c_str(), &width, &height, &channels, 4);
 		channels = 4;
 
-		frames.push_back(Frame(frame, width, height, channels, fpath));
+		frames.push_back(Frame(frame, width, height, channels));
 	}
 
 	return frames;
