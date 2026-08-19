@@ -157,10 +157,12 @@ int main()
     std::size_t frameNum = 0;
 	const auto frameDuration = std::chrono::milliseconds(1000 / TargetFPS);
 
+	Pixel background = Pixel(" ", nullptr);
+
 	while (true) {
 		auto frameStart = std::chrono::high_resolution_clock::now();
 
-        buf.fill(Pixel(" ", nullptr));
+        buf.fill(background);
 		
 		Frame& f = frames[frameNum % frames.size()];
 		for (int y = 0; y < OutputHeight; ++y) {
@@ -174,8 +176,9 @@ int main()
 				unsigned char r = f.image[index + 0];
 				unsigned char g = f.image[index + 1];
 				unsigned char b = f.image[index + 2];
-				
-				buf.plot(x, y, Pixel(nullptr, get_closest_ansi(r, g, b)));
+				Pixel finalPixel = Pixel(nullptr, get_closest_ansi(r, g, b));
+
+				buf.plot(x, y, finalPixel);
 			}
 		}
 
