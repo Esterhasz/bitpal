@@ -50,45 +50,48 @@
 namespace bitpal {
 
 	struct Pixel {
-		const char* str;
+		const char* data;
 		const char* color;
 
-		Pixel() {
-			str = " ";
-			color = ANSI_BG_BLACK ANSI_FG_WHITE;
+		Pixel() :
+			data(""),
+			color(ANSI_BG_BLACK ANSI_FG_WHITE) {
+		}
+		Pixel(const char* data, const char* color) : 
+			data(data), 
+			color(color) {
 		}
 	};
 
 	class Buffer2D {
 
 		std::unique_ptr<Pixel[]> _buffer;
-
-		size_t _width;
-		size_t _height;
-
 		std::string _out;
 
+		std::size_t _width;
+		std::size_t _height;
+
+		std::uint8_t _pixelWidth;
+
 	public:
-		Buffer2D(size_t width, size_t height)
+		Buffer2D(size_t width, size_t height, int pixelWidth)
 		{
 			_width = width;
 			_height = height;
+			_pixelWidth = pixelWidth;
 
 			_buffer = std::make_unique<Pixel[]>(_width * _height);
 
 			_out.reserve(_width * _height * 16);
 		}
 
-		void fill(const char* color, const char* str) {
+		void fill(Pixel& p) {
 
 			for (size_t y = 0; y < _height; y++)
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = at(x, y);
-
-					p.str = str;
-					p.color = color;
+					at(x, y) = p;
 				}
 			}
 		}
@@ -102,8 +105,21 @@ namespace bitpal {
 				for (size_t x = 0; x < _width; x++)
 				{
 					Pixel& p = at(x, y);
-					_out += p.color;
-					_out += p.str;
+
+					_out += p.color ? p.color : ANSI_RESET;
+
+					int i = 0;
+
+					while (i < _pixelWidth) {
+						if (!p.data || p.data[i] == '\0') {
+							_out += ' ';
+						}
+						else {
+							_out += p.data[i];
+						}
+
+						i++;
+					}
 				}
 				_out += '\n';
 			}

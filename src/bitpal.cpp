@@ -10,7 +10,7 @@ int main()
 		<< ANSI_HOME
         << ANSI_CURSOR_HIDE;
 
-	Buffer2D buf(15, 15);
+	Buffer2D buf(15, 15, 2);
 
     std::string gradient[] = {
         ANSI_BG_BLACK,
@@ -35,16 +35,11 @@ int main()
     float i = 0;
 
 	while (true) {
-		
-		buf.fill(ANSI_BG_BLACK, "  ");
+        buf.fill(Pixel(" ", nullptr));
 		
         auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
-        Pixel p{};
-        p.color = color;
-        p.str = "  ";
-
         
-        buf.drawRect(0, 0, 10, 10, p);
+        buf.drawRect(0, 0, 10, 10, Pixel(" ", color));
 
 		buf.draw();
 	}
