@@ -143,11 +143,16 @@ namespace bitpal {
 			}
 		}
 		void drawRect(int x, int y, int width, int height, const Pixel& p) {
+			if (width <= 0 || height <= 0)
+				return;
 
-			drawLine(x, y, x + width, y, p);
-			drawLine(x + width, y, x + width, y + height, p);
-			drawLine(x + width, y + height, x, y + height, p);
-			drawLine(x, y + height, x, y, p);
+			int x2 = x + width - 1;
+			int y2 = y + height - 1;
+
+			drawLine(x, y, x2, y, p);
+			drawLine(x2, y, x2, y2, p);
+			drawLine(x2, y2, x, y2, p);
+			drawLine(x, y2, x, y, p);
 		}
 
 		void plot(int x, int y, const Pixel& p) {
