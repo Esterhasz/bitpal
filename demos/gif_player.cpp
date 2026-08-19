@@ -5,6 +5,7 @@
 #include <thread>
 #include <vector>
 #include <fstream>
+#include <cstring>
 #include "bitpal.h"
 #include "stb_image.h"
 
