@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿#define BITPAL_IMPLEMENTATION
+
+#include <iostream>
 #include "bitpal.h"
 
 using namespace bitpal;
@@ -37,12 +39,15 @@ int main()
 	while (true) {
 		
 		canvas.fill(ANSI_BG_BLACK, "  ");
-		auto& p = canvas(0, 0);
-        
-        auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
-        p.color = color;
-
 		
+        auto color = gradient[(size_t)(i += 0.001) % 16].c_str();
+        Pixel p{};
+        p.color = color;
+        p.str = "  ";
+
+        
+        canvas.drawRect(0, 0, 10, 10, p);
+
 		canvas.draw();
 	}
 

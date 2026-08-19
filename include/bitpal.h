@@ -1,5 +1,4 @@
 #pragma once
-#define BITPAL_IMPLEMENTATION
 
 #ifdef BITPAL_IMPLEMENTATION
 
@@ -87,7 +86,7 @@ namespace bitpal {
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = (*this)(x, y);
+					Pixel& p = at(x, y);
 
 					p.str = str;
 					p.color = color;
@@ -105,7 +104,7 @@ namespace bitpal {
 			{
 				for (size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = (*this)(x, y);
+					Pixel& p = at(x, y);
 					_out += p.color;
 					_out += p.str;
 				}
@@ -116,9 +115,56 @@ namespace bitpal {
 			std::cout << _out;
 		}
 
-		Pixel& operator()(std::size_t x, std::size_t y) {
+		void drawLine(int x1, int y1, int x2, int y2, const Pixel& p) {
+			int dx = std::abs(x2 - x1);
+			int dy = std::abs(y2 - y1);
+
+			int sx = (x1 < x2) ? 1 : -1;
+			int sy = (y1 < y2) ? 1 : -1;
+
+			int err = dx - dy;
+
+			while (true) {
+				plot(x1, y1, p);
+
+				if (x1 == x2 && y1 == y2) {
+					break;
+				}
+
+				int e2 = 2 * err;
+
+				if (e2 > -dy) {
+					err -= dy;
+					x1 += sx;
+				}
+
+				if (e2 < dx) {
+					err += dx;
+					y1 += sy;
+				}
+			}
+		}
+		void drawRect(int x, int y, int width, int height, const Pixel& p) {
+
+			drawLine(x, y, x + width, y, p);
+			drawLine(x + width, y, x + width, y + height, p);
+			drawLine(x + width, y + height, x, y + height, p);
+			drawLine(x, y + height, x, y, p);
+		}
+
+		void plot(int x, int y, const Pixel& p) {
+			if (x < 0 || x >= static_cast<int>(_width) ||
+				y < 0 || y >= static_cast<int>(_height)) {
+				return;
+			}
+
+			at(x, y) = p;
+		}
+
+		Pixel& at(std::size_t x, std::size_t y) {
 			return _buffer[y * _width + x];
 		}
+
 	};
 }
 
