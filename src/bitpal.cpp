@@ -1,6 +1,4 @@
-﻿#define BITPAL_IMPLEMENTATION
-
-#include <iostream>
+﻿#include <iostream>
 #include "bitpal.h"
 
 using namespace bitpal;

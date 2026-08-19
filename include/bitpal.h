@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef BITPAL_IMPLEMENTATION
-
 #define ANSI_RESET			 "\033[0m"
 #define ANSI_CLEAR			 "\033[2J"
 #define ANSI_HOME			 "\033[H"
@@ -167,5 +165,3 @@ namespace bitpal {
 
 	};
 }
-
-#endif
