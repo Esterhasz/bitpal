@@ -45,6 +45,7 @@
 
 #include <memory>
 #include <iostream>
+#include <cmath>
 
 namespace bitpal {
 
@@ -75,7 +76,7 @@ namespace bitpal {
 
 			_buffer = std::make_unique<Pixel[]>(_width * _height);
 
-			_out.reserve(_width * _height);
+			_out.reserve(_width * _height * 16);
 		}
 
 		void fill(const char* color, const char* str) {
@@ -167,6 +168,8 @@ namespace bitpal {
 		Pixel& at(std::size_t x, std::size_t y) {
 			return _buffer[y * _width + x];
 		}
-
+		const Pixel& at(std::size_t x, std::size_t y) const {
+			return _buffer[y * _width + x];
+		}
 	};
 }
