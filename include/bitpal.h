@@ -91,8 +91,6 @@ namespace bitpal {
 					p.color = color;
 				}
 			}
-
-			std::cout << ANSI_RESET;
 		}
 
 		void draw()
