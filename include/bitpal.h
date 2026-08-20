@@ -43,12 +43,12 @@
 #define ANSI_BG_CYAN         "\033[106m"
 #define ANSI_BG_WHITE        "\033[107m"
 
-#include <memory>
+#include <cstddef>
+#include <cstdint>
 #include <iostream>
+#include <memory>
+#include <string>
 #include <cmath>
-
-using size_t = std::size_t;
-using uint8_t = std::uint8_t;
 
 namespace bitpal {
 
@@ -71,13 +71,13 @@ namespace bitpal {
 		std::unique_ptr<Pixel[]> _buffer;
 		std::string _out;
 
-		size_t _width;
-		size_t _height;
-
-		uint8_t _pixelWidth;
+		std::size_t _width;
+		std::size_t _height;
+		
+		std::uint8_t _pixelWidth;
 
 	public:
-		Buffer2D(size_t width, size_t height, uint8_t pixelWidth)
+		Buffer2D(std::size_t width, std::size_t height, std::uint8_t pixelWidth)
 		{
 			_width = width;
 			_height = height;
@@ -90,9 +90,9 @@ namespace bitpal {
 
 		void fill(const Pixel& p) {
 
-			for (size_t y = 0; y < _height; y++)
+			for (std::size_t y = 0; y < _height; y++)
 			{
-				for (size_t x = 0; x < _width; x++)
+				for (std::size_t x = 0; x < _width; x++)
 				{
 					at(x, y) = p;
 				}
@@ -103,11 +103,11 @@ namespace bitpal {
 		{
 			_out.clear();
 
-			for (size_t y = 0; y < _height; y++)
+			for (std::size_t y = 0; y < _height; y++)
 			{
-				for (size_t x = 0; x < _width; x++)
+				for (std::size_t x = 0; x < _width; x++)
 				{
-					Pixel& p = at(x, y);
+					const Pixel& p = at(x, y);
 
 					_out += p.color ? p.color : ANSI_RESET;
 
@@ -181,10 +181,10 @@ namespace bitpal {
 			at(x, y) = p;
 		}
 
-		Pixel& at(size_t x, size_t y) {
+		Pixel& at(std::size_t x, std::size_t y) {
 			return _buffer[y * _width + x];
 		}
-		const Pixel& at(size_t x, size_t y) const {
+		const Pixel& at(std::size_t x, std::size_t y) const {
 			return _buffer[y * _width + x];
 		}
 	};
