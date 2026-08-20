@@ -1,12 +1,12 @@
-# bitpal
+# bytepal
 ### Turn your console into a GUI!
 A single-header C++ library for rendering colorful 2D graphics directly in your terminal.
-Bitpal uses ANSI escape sequences and a 2D buffer to turn terminal characters into simple graphical pixels.
+The project uses ANSI escape sequences and a 2D buffer to turn terminal characters into simple graphical pixels.
 Combine different colors and primitives to build simple interfaces, visualizations, games, and other terminal graphics!
 
 ## Features
 
-* Single `bitpal.h` header
+* Single `bytepal.h` header
 * No external dependencies
 * ANSI foreground and background colors
 * 2D pixel buffer
@@ -22,11 +22,11 @@ Combine different colors and primitives to build simple interfaces, visualizatio
 ## Quick Start
 
 ```cpp
-#include "bitpal.h"
+#include "bytepal.h"
 
 int main()
 {
-    using namespace bitpal;
+    using namespace bytepal;
 
     Buffer2D buffer(40, 20, 2); // <-- 2 is the width of each pixel in glyphs
 
@@ -81,7 +81,7 @@ Pixel data is trimmed or padded with spaces to fit `pixelWidth`.
 
 ## Drawing
 
-bitpal provides a few basic drawing primitives.
+bytepal provides a few basic drawing primitives.
 
 
 ```cpp
@@ -143,7 +143,7 @@ while (running)
 
 ## ANSI Colors
 
-bitpal provides the standard 16 ANSI foreground and background colors.
+bytepal provides the standard 16 ANSI foreground and background colors.
 
 ```cpp
 
@@ -195,10 +195,10 @@ ANSI_CURSOR_SHOW
 You can also use your own ANSI escape sequences.
 
 ## Installation
-bitpal is header-only.
+bytepal is header-only.
 
-1. Copy `bitpal.h` into your project. 
-2. Add `#include "bitpal.h"`
+1. Copy `bytepal.h` into your project. 
+2. Add `#include "bytepal.h"`
 3. You're done!
 
 No build system or additional dependencies are required.
