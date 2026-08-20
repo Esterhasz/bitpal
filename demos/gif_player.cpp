@@ -16,14 +16,15 @@ namespace fs = std::filesystem;
 const int TargetFPS		= 15;
 
 // must fit in console window
-const int OutputWIdth	= 50;
-const int OutputHeight	= 50;
+const int OutputWIdth	= 40;
+const int OutputHeight	= 40;
 
 // if it's wide, set to 1
 const int PixelWidth	= 2;
 
-const char* PathToPlay	= "content/heart.gif";
+const char* PathToPlay	= "content/heart_transparent.gif";
 
+static constexpr unsigned char ALPHA_THRESHOLD = 12;
 
 struct Frame {
 
@@ -42,27 +43,27 @@ struct Frame {
 };
 
 struct Color {
-	unsigned char r, g, b;
+	unsigned char r, g, b, a;
 	const char* ansi;
 };
 
 const std::vector<Color> ansi_palette = {
-	{0,   0,   0,   ANSI_BG_BLACK},
-	{128, 0,   0,   ANSI_BG_DARK_RED},
-	{0,   128, 0,   ANSI_BG_DARK_GREEN},
-	{128, 128, 0,   ANSI_BG_DARK_YELLOW},
-	{0,   0,   128, ANSI_BG_DARK_BLUE},
-	{128, 0,   128, ANSI_BG_DARK_MAGENTA},
-	{0,   128, 128, ANSI_BG_DARK_CYAN},
-	{192, 192, 192, ANSI_BG_GRAY},
-	{128, 128, 128, ANSI_BG_DARK_GRAY},
-	{255, 0,   0,   ANSI_BG_RED},
-	{0,   255, 0,   ANSI_BG_GREEN},
-	{255, 255, 0,   ANSI_BG_YELLOW},
-	{0,   0,   255, ANSI_BG_BLUE},
-	{255, 0,   255, ANSI_BG_MAGENTA},
-	{0,   255, 255, ANSI_BG_CYAN},
-	{255, 255, 255, ANSI_BG_WHITE}
+	{ 0,   0,   0,   255, ANSI_BG_BLACK			},
+	{ 128, 0,   0,   255, ANSI_BG_DARK_RED		},
+	{ 0,   128, 0,   255, ANSI_BG_DARK_GREEN	},
+	{ 128, 128, 0,   255, ANSI_BG_DARK_YELLOW	},
+	{ 0,   0,   128, 255, ANSI_BG_DARK_BLUE		},
+	{ 128, 0,   128, 255, ANSI_BG_DARK_MAGENTA	},
+	{ 0,   128, 128, 255, ANSI_BG_DARK_CYAN		},
+	{ 192, 192, 192, 255, ANSI_BG_GRAY			},
+	{ 128, 128, 128, 255, ANSI_BG_DARK_GRAY		},
+	{ 255, 0,   0,   255, ANSI_BG_RED			},
+	{ 0,   255, 0,   255, ANSI_BG_GREEN			},
+	{ 255, 255, 0,   255, ANSI_BG_YELLOW		},
+	{ 0,   0,   255, 255, ANSI_BG_BLUE			},
+	{ 255, 0,   255, 255, ANSI_BG_MAGENTA		},
+	{ 0,   255, 255, 255, ANSI_BG_CYAN			},
+	{ 255, 255, 255, 255, ANSI_BG_WHITE			},
 };
 
 std::vector<Frame> load_gif_frames(const std::string& filepath) {
@@ -143,7 +144,11 @@ std::vector<Frame> load_framebyframe_video(const std::string& dirPath) {
 	return frames;
 }
 
-static const char* get_closest_ansi(unsigned char r, unsigned char g, unsigned char b) {
+static const char* get_closest_ansi(unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+
+	if (a < ALPHA_THRESHOLD)
+		return ANSI_RESET;
+
 	const char* best_ansi = ansi_palette[0].ansi;
 	double min_dist = std::numeric_limits<double>::max();
 
@@ -176,7 +181,7 @@ int main()
     std::size_t frameNum = 0;
 	const auto frameDuration = std::chrono::milliseconds(1000 / TargetFPS);
 
-	Pixel background = Pixel(" ", nullptr);
+	Pixel background = Pixel(nullptr, nullptr);
 
 	while (true) {
 		auto frameStart = std::chrono::high_resolution_clock::now();
@@ -195,7 +200,9 @@ int main()
 				unsigned char r = f.image[index + 0];
 				unsigned char g = f.image[index + 1];
 				unsigned char b = f.image[index + 2];
-				Pixel finalPixel = Pixel(nullptr, get_closest_ansi(r, g, b));
+				unsigned char a = f.image[index + 3];
+
+				Pixel finalPixel = Pixel(nullptr, get_closest_ansi(r, g, b, a));
 
 				buf.plot(x, y, finalPixel);
 			}

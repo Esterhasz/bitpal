@@ -58,7 +58,7 @@ namespace bitpal {
 
 		Pixel() :
 			data(""),
-			color(ANSI_BG_BLACK ANSI_FG_WHITE) {
+			color(ANSI_RESET ANSI_FG_WHITE) {
 		}
 		Pixel(const char* data, const char* color) : 
 			data(data), 
