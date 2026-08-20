@@ -142,7 +142,7 @@ while (running)
 
 ## ANSI Colors
 
-Bitpal provides the standard 16 ANSI foreground and background colors.
+bitpal provides the standard 16 ANSI foreground and background colors.
 
 ```cpp
 
@@ -207,7 +207,7 @@ No build system or additional dependencies are required.
 * An ANSI-compatible terminal
 
 ## Notes
-Bitpal is intended for terminals that support ANSI escape sequences.
+bitpal is intended for terminals that support ANSI escape sequences.
 
 `Pixel::data` is treated as a sequence of single-byte characters. UTF-8 character handling is not provided.
 `Buffer2D::at()` performs no bounds checking. Use `plot()` when coordinates may be outside the buffer.
