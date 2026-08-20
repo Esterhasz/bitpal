@@ -50,7 +50,7 @@
 #include <string>
 #include <cmath>
 
-namespace bitpal {
+namespace bytepal {
 
 	struct Pixel {
 		const char* data;

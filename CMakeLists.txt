@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories("include")
-project ("bitpal")
+project ("bytepal")
 
 file (GLOB_RECURSE SRC_FILES 
 	"include/*.h"
@@ -15,11 +15,11 @@ file (GLOB_RECURSE SRC_FILES
 	"demos/*.cpp"
 )
 
-add_executable(bitpal ${SRC_FILES})
+add_executable(bytepal ${SRC_FILES})
 
 add_custom_command(
-    TARGET bitpal POST_BUILD
+    TARGET bytepal POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_CURRENT_SOURCE_DIR}/content"
-            "$<TARGET_FILE_DIR:bitpal>/content"
+            "$<TARGET_FILE_DIR:bytepal>/content"
 )

@@ -7,10 +7,10 @@
 #include <fstream>
 #include <cstring>
 #include <regex>
-#include "bitpal.h"
+#include "bytepal.h"
 #include "stb_image.h"
 
-using namespace bitpal;
+using namespace bytepal;
 namespace fs = std::filesystem;
 
 const int TargetFPS		= 15;
