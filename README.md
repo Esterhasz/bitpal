@@ -1,4 +1,5 @@
 # bitpal
+### Turn your console into a GUI!
 A single-header C++ library for rendering colorful 2D graphics directly in your terminal.
 Bitpal uses ANSI escape sequences and a 2D buffer to turn terminal characters into simple graphical pixels.
 Combine different colors and primitives to build simple interfaces, visualizations, games, and other terminal graphics!
@@ -207,10 +208,7 @@ No build system or additional dependencies are required.
 * An ANSI-compatible terminal
 
 ## Notes
-bitpal is intended for terminals that support ANSI escape sequences.
+The project is intended for terminals that support ANSI escape sequences.
 
 `Pixel::data` is treated as a sequence of single-byte characters. UTF-8 character handling is not provided.
 `Buffer2D::at()` performs no bounds checking. Use `plot()` when coordinates may be outside the buffer.
-
-## License
-bitpal project is licensed under the MIT License.
