@@ -208,7 +208,7 @@ int main()
 			}
 		}
 
-		buf.draw();
+		buf.draw(nullptr, nullptr);
 		frameNum++;
 
 		auto frameTime = std::chrono::high_resolution_clock::now() - frameStart;

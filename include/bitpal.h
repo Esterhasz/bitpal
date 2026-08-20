@@ -99,9 +99,12 @@ namespace bitpal {
 			}
 		}
 
-		void draw()
+		void draw(const char* pre, const char* post)
 		{
 			_out.clear();
+
+			if (pre)
+				_out += pre;
 
 			for (std::size_t y = 0; y < _height; y++)
 			{
@@ -127,7 +130,9 @@ namespace bitpal {
 				_out += '\n';
 			}
 
-			std::cout << ANSI_HOME << _out;
+			if (post)
+				_out += post;
+			std::cout << _out;
 		}
 
 		void drawLine(int x1, int y1, int x2, int y2, const Pixel& p) {
